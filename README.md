@@ -18,7 +18,24 @@ TBC
 TBC
 
 ## Example Usage
-TBC
+
+### Node
+
+```
+var datapoint = require('./datapoint'),
+    sys = require('sys');
+
+sys.puts(datapoint.helloworld());
+```
+
+### Browser
+
+```
+<script src="datapoint.js"></script>
+<script>
+    alert(datapoint.helloworld());
+</script>
+```
 
 ## Contributing changes
 
