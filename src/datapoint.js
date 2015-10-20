@@ -23,3 +23,7 @@ var datapoint = {
 }
 
 module.exports = datapoint;
+
+if (typeof window !== 'undefined') {
+  window.datapoint = datapoint;
+}
