@@ -25,7 +25,12 @@ module.exports = {
     payload = params;
     payload.key = api_key;
 
-    var xhttp = new XMLHttpRequest();
+    if (typeof window !== 'undefined' && typeof window.XMLHttpRequest !== 'undefined'){
+      var xhttp = new window.XMLHttpRequest();
+    } else {
+      var xhttp = new XMLHttpRequest();
+    }
+
 
     url =  this.API_URL + path + this.formatParams(payload);
     // console.log(url);
