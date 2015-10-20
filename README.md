@@ -22,19 +22,28 @@ TBC
 ### Node
 
 ```
-var datapoint = require('./datapoint'),
-    sys = require('sys');
+var datapoint = require('../src/datapoint');
 
-sys.puts(datapoint.helloworld());
+datapoint.set_key("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
+
+site = datapoint.get_nearest_site(-0.124626, 51.500728);
+
+forecast = datapoint.get_forecast_for_site(site.id, "3hourly");
+
+current_timestep = forecast.days[0].timesteps[0];
+
+console.log("Temperature is " + current_timestep.temperature.value + "°" + current_timestep.temperature.units + " in " + site.name);
+```
+
+#### Output
+```
+Temperature is 15°C in London
 ```
 
 ### Browser
 
 ```
-<script src="datapoint.js"></script>
-<script>
-    alert(datapoint.helloworld());
-</script>
+TBC
 ```
 
 ## Contributing changes
