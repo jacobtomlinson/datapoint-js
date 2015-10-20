@@ -1,25 +1,27 @@
 {
   "name": "datapoint-js",
-  "version": "1.0.0",
-  "description": "_A JavaScript library for accessing weather data via the [Met Office](http://www.metoffice.gov.uk/)'s open data API known as [DataPoint](http://www.metoffice.gov.uk/datapoint)._",
-  "main": "index.js",
+  "version": "0.1.0",
+  "description": "A JavaScript library for accessing weather data via the [Met Office](http://www.metoffice.gov.uk/)'s open data API known as [DataPoint](http://www.metoffice.gov.uk/datapoint).",
+  "main": "src/datapoint.js",
   "directories": {
     "example": "examples"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/jacobtomlinson/datapoint-js.git"
   },
   "author": "Jacob Tomlinson <jacob@jacobtomlinson.co.uk> (http://www.informaticslab.co.uk/)",
-  "license": "ISC",
+  "license": "GPLv3",
   "bugs": {
     "url": "https://github.com/jacobtomlinson/datapoint-js/issues"
   },
   "homepage": "https://github.com/jacobtomlinson/datapoint-js",
   "dependencies": {
     "xmlhttprequest": "^1.8.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-minify": "0.0.5"
   }
 }

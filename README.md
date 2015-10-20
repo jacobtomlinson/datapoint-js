@@ -21,7 +21,7 @@ TBC
 
 ### Node
 
-```
+```JavaScript
 var datapoint = require('../src/datapoint');
 
 datapoint.set_key("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
