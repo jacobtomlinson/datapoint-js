@@ -28,7 +28,7 @@ module.exports = {
     var xhttp = new XMLHttpRequest();
 
     url =  this.API_URL + path + this.formatParams(payload);
-    //console.log(url);
+    // console.log(url);
     xhttp.open("GET", url, false);
     xhttp.send();
 

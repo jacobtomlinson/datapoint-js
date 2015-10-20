@@ -15,7 +15,7 @@ module.exports = {
     var data = api.call_api(api_key, site_id, {"res":this.frequency});
     this.params = data.SiteRep.Wx.Param;
     var forecast = {};
-    forecast.data_date  = data.SiteRep.DV.dataDate; // Needs converting to date object
+    forecast.data_date  = new Date(data.SiteRep.DV.dataDate); // Needs converting to date object
     forecast.continent  = data.SiteRep.DV.Location.continent;
     forecast.country    = data.SiteRep.DV.Location.country;
     forecast.name       = data.SiteRep.DV.Location.name;
@@ -34,13 +34,14 @@ module.exports = {
 
     for (var i = 0; i < raw_data.length; i++){
       day = {};
-      day.timesteps = this.clean_timesteps(raw_data[i].Rep);
+      day.date = new Date(raw_data[i].value);
+      day.timesteps = this.clean_timesteps(raw_data[i].Rep, day.date);
       days.push(day);
     }
     return days;
   },
 
-  "clean_timesteps": function(raw_data){
+  "clean_timesteps": function(raw_data, date){
     var timesteps = [];
     for (var i = 0; i < raw_data.length; i++){
       timestep = {};
@@ -51,6 +52,15 @@ module.exports = {
         timestep[new_key].id = key;
         timestep[new_key].value = raw_data[i][key];
         timestep[new_key].units = this.get_units_for_key(key);
+      }
+      timestep.date = new Date(date.valueOf());
+      if (this.frequency == "daily"){
+        if (timestep.name == "Day") {
+          timestep.date = timestep.date.setHours(timestep.date.getHours + 12);
+        }
+      } else {
+        minutes = timestep.date.getMinutes() + parseInt(timestep.name.value);
+        timestep.date.setMinutes(minutes);
       }
       timesteps.push(timestep);
     }
@@ -78,7 +88,7 @@ module.exports = {
       } else if (timestep == "Night"){
         return settings.remap_keys.night[key];
       } else {
-        return settings.remap_keys.defaut[key];
+        return settings.remap_keys.default[key];
       }
     } else {
       console.log("Unknown key " + key);
