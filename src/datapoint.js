@@ -1,7 +1,7 @@
 var site = require("./site");
 var forecast = require("./forecast");
 
-module.exports = {
+var datapoint = {
 
   "api_key": "",
 
@@ -21,3 +21,5 @@ module.exports = {
     return forecast.get_forecast_for_site(this.api_key, site_id, frequency);
   }
 }
+
+module.exports = datapoint;
