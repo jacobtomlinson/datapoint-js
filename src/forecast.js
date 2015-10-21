@@ -52,6 +52,9 @@ module.exports = {
         timestep[new_key].id = key;
         timestep[new_key].value = raw_data[i][key];
         timestep[new_key].units = this.get_units_for_key(key);
+        if (key == 'W'){
+          timestep[new_key].text = this.weather_to_text(raw_data[i][key]);
+        }
       }
       timestep.date = new Date(date.valueOf());
       if (this.frequency == "daily"){
@@ -104,5 +107,13 @@ module.exports = {
       }
     }
     return units;
+  },
+
+  "weather_to_text": function(code){
+    if (code in settings.weather_codes){
+      return settings.weather_codes[code];
+    } else {
+      return undefined;
+    }
   }
 };

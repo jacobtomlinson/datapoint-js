@@ -1,11 +1,11 @@
-var datapoint = require('../src/datapoint');
+var datapoint = require('../src/datapoint')
 
-datapoint.set_key("41bf616e-7dbc-4066-826a-7270b8da4b93");
+datapoint.set_key("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
 
-site = datapoint.get_nearest_site(-0.124626, 51.500728);
+site = datapoint.get_nearest_site(-0.124626, 51.500728)
 
-forecast = datapoint.get_forecast_for_site(site.id);
+forecast = datapoint.get_forecast_for_site(site.id)
 
-now = forecast.days[0].timesteps[0];
+current_timestep = forecast.days[0].timesteps[0]
 
-console.log("Temperature is " + now.temperature.value + "°" + now.temperature.units + " in " + site.name);
+console.log(site.name + " - " + current_timestep.weather.text)

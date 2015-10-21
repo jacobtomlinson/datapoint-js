@@ -12,7 +12,6 @@ gulp.task('browserify', function() {
     gulp.src('src/datapoint.js')
         .pipe(browserify({
           insertGlobals : true,
-          debug : !gulp.env.production,
           ignore : "xmlhttprequest"
         }))
         .pipe(minify({
