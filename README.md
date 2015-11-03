@@ -16,14 +16,19 @@ The author will make reasonable efforts to keep it up to date and fully featured
  * 3 hourly (Eight timesteps, every 3 hours starting at midnight UTC)
 
 ## Installation
-TBC
+
+### Node
+
+```Shell
+npm install datapoint-js
+```
 
 ## Example Usage
 
 ### Node
 
 ```JavaScript
-var datapoint = require('../src/datapoint');
+var datapoint = require('datapoint-js');
 
 datapoint.set_key("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
 
