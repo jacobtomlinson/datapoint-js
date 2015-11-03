@@ -23,6 +23,16 @@ The author will make reasonable efforts to keep it up to date and fully featured
 npm install datapoint-js
 ```
 
+### Browser
+
+```Shell
+bower install datapoint-js
+```
+
+### Manual
+
+Download the contents of either `/src` (for node) or `/dist/browser` (for browser) and include them in your project.
+
 ## Example Usage
 
 ### Node
