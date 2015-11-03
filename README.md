@@ -9,19 +9,14 @@ No support for this module is provided by the Met Office and may break as the Da
 The author will make reasonable efforts to keep it up to date and fully featured.__
 
 ## Features
-TBC
+* List forecast sites
+* Get nearest forecast site from longitude and latitiude
+* Get the following 5 day forecast types for any site
+ * Daily (Two timesteps, midday and midnight UTC)
+ * 3 hourly (Eight timesteps, every 3 hours starting at midnight UTC)
 
 ## Installation
 TBC
-
-## Documentation
-Documentation is automatically generated using [JSDoc](http://usejsdoc.org/) and is stored in [docs](docs).
-
-To regenerate the documentation simply return
-
-```
-gulp document
-```
 
 ## Example Usage
 
@@ -49,12 +44,54 @@ Temperature is 15°C in London
 ### Browser
 
 ```
-TBC
+<html>
+<head>
+  <title>Datapoint test</title>
+</head>
+<body>
+
+  <h1>Weather</h1>
+  <p id="weather">Loading...</p>
+
+  <script src="../dist/browser/datapoint.js"></script>
+  <script>
+
+    datapoint.set_key("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
+
+    site = datapoint.get_nearest_site(-0.124626, 51.500728);
+
+    forecast = datapoint.get_forecast_for_site(site.id);
+
+    current_timestep = forecast.days[0].timesteps[0];
+
+    document.getElementById("weather").innerHTML =
+        site.name + " - " + current_timestep.weather.text;
+
+  </script>
+</body>
+</html>
 ```
+
+#### Output
+
+The contents of the `<p>` block is replaced with `Temperature is 15°C in London`.
 
 ## Contributing changes
 
 Please feel free to submit issues and pull requests.
+
+To work on the project simply clone the project and run `npm install`.
+
+This project uses gulp as its task runner and can be used to browserify the code and generate the documentation.
+
+## Documentation
+Documentation is automatically generated using [JSDoc](http://usejsdoc.org/) and is stored in [docs](docs).
+
+To regenerate the documentation simply run
+
+```
+gulp document
+```
 
 ## License
 
