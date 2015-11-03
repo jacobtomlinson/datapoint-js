@@ -15,7 +15,13 @@ TBC
 TBC
 
 ## Documentation
-TBC
+Documentation is automatically generated using [JSDoc](http://usejsdoc.org/) and is stored in [docs](docs).
+
+To regenerate the documentation simply return
+
+```
+gulp document
+```
 
 ## Example Usage
 

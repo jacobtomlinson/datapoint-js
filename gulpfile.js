@@ -3,9 +3,10 @@ var browserify = require('gulp-browserify');
 var minify = require('gulp-minify');
 var shell = require('gulp-shell')
 var pack = require('./package.json');
+var jsdoc = require("gulp-jsdoc");
 
 gulp.task('default', function() {
-  gulp.start('browserify', 'serve');
+  gulp.start('browserify', 'document', 'serve');
 });
 
 gulp.task('browserify', function() {
@@ -19,6 +20,11 @@ gulp.task('browserify', function() {
           ignoreFiles: ['.combo.js', '-min.js']
         }))
         .pipe(gulp.dest('./dist/browser/'))
+});
+
+gulp.task('document', function() {
+  gulp.src(["./src/datapoint.js", "./README.md"])
+    .pipe(jsdoc('./docs'))
 });
 
 gulp.task('serve', shell.task([
