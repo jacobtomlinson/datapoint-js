@@ -105,7 +105,7 @@
 
     /** Get weather forecast for longitude and latitude and call decide_on_umbrella() */
     function get_weather(longitude, latitude){
-      datapoint.set_key("41bf616e-7dbc-4066-826a-7270b8da4b93");
+      datapoint.set_key("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
       var site = datapoint.get_nearest_site(longitude, latitude);
       document.getElementById("forecast_site").innerHTML = "(" + site.name + ")";
       var forecast = datapoint.get_forecast_for_site(site.id);

@@ -19,7 +19,7 @@
     current_timestep = forecast.days[0].timesteps[0];
 
     document.getElementById("weather").innerHTML =
-        site.name + " - " + current_timestep.weather.text;
+        "Temperature is " + current_timestep.temperature.value + "&deg;" + current_timestep.temperature.units + " in " + site.name;
 
   </script>
 </body>

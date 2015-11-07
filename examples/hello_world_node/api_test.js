@@ -1,4 +1,6 @@
 var datapoint = require('../src/datapoint')
+// or if you run `npm install datapoint-js`
+// var datapoint = require('datapoint-js')
 
 datapoint.set_key("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
 
@@ -8,4 +10,4 @@ forecast = datapoint.get_forecast_for_site(site.id)
 
 current_timestep = forecast.days[0].timesteps[0]
 
-console.log(site.name + " - " + current_timestep.weather.text)
+console.log("Temperature is " + current_timestep.temperature.value + "°" + current_timestep.temperature.units + " in " + site.name)

@@ -38,17 +38,17 @@ Download the contents of either `/src` (for node) or `/dist/browser` (for browse
 ### Node
 
 ```JavaScript
-var datapoint = require('datapoint-js');
+var datapoint = require('datapoint-js')
 
-datapoint.set_key("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
+datapoint.set_key("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
 
-site = datapoint.get_nearest_site(-0.124626, 51.500728);
+site = datapoint.get_nearest_site(-0.124626, 51.500728)
 
-forecast = datapoint.get_forecast_for_site(site.id, "3hourly");
+forecast = datapoint.get_forecast_for_site(site.id, "3hourly")
 
-current_timestep = forecast.days[0].timesteps[0];
+current_timestep = forecast.days[0].timesteps[0]
 
-console.log("Temperature is " + current_timestep.temperature.value + "°" + current_timestep.temperature.units + " in " + site.name);
+console.log("Temperature is " + current_timestep.temperature.value + "°" + current_timestep.temperature.units + " in " + site.name)
 ```
 
 #### Output
@@ -58,7 +58,7 @@ Temperature is 15°C in London
 
 ### Browser
 
-```
+```html
 <html>
 <head>
   <title>Datapoint test</title>
@@ -80,7 +80,7 @@ Temperature is 15°C in London
     current_timestep = forecast.days[0].timesteps[0];
 
     document.getElementById("weather").innerHTML =
-        site.name + " - " + current_timestep.weather.text;
+        "Temperature is " + current_timestep.temperature.value + "&deg;" + current_timestep.temperature.units + " in " + site.name;
 
   </script>
 </body>
