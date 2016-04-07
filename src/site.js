@@ -1,9 +1,9 @@
 var api = require("./api");
 
 module.exports = {
-  
-    "get_sites": function(api_key){
-      sites = api.call_api(api_key, "sitelist/")
+
+    "get_sites": function(api_key, type){
+      sites = api.call_api(api_key, type, "sitelist/")
       return sites.Locations.Location;
     },
 
@@ -12,7 +12,7 @@ module.exports = {
       return distance;
     },
 
-    "get_nearest_site": function(api_key, longitude, latitude){
+    "get_nearest_site": function(api_key, type, longitude, latitude){
       if(latitude === undefined || longitude === undefined){
         console.log("Latitude or Longitude not set.");
         return false;
@@ -20,7 +20,7 @@ module.exports = {
 
       var nearest = false;
       var distance = false;
-      var sites = this.get_sites(api_key);
+      var sites = this.get_sites(api_key, type);
 
       for(var i = 0; i < sites.length; i++){
         var new_distance = this.distance_between_coords(

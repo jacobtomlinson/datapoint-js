@@ -1,6 +1,6 @@
 {
   "name": "datapoint-js",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "A JavaScript library for accessing weather data via the [Met Office](http://www.metoffice.gov.uk/)'s open data API known as [DataPoint](http://www.metoffice.gov.uk/datapoint).",
   "main": "src/datapoint.js",
   "directories": {

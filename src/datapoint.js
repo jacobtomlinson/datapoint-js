@@ -1,5 +1,6 @@
 var site = require("./site");
 var forecast = require("./forecast");
+var obs = require("./obs");
 
 /**
  * Datapoint module.
@@ -31,18 +32,37 @@ module.exports = {
    * @param {string} latitude - Latitude for location.
    * @returns {Object}  - Site object.
    */
-  get_nearest_site: function(longitude, latitude){
-    return site.get_nearest_site(this.api_key, longitude, latitude);
+  get_nearest_forecast_site: function(longitude, latitude){
+    return site.get_nearest_site(this.api_key, "fcs", longitude, latitude);
   },
 
   /**
-   * Get nearest forecast site.
+   * Get nearest obs site.
+   * @param {string} longitude - Logitude for location.
+   * @param {string} latitude - Latitude for location.
+   * @returns {Object}  - Site object.
+   */
+  get_nearest_obs_site: function(longitude, latitude){
+    return site.get_nearest_site(this.api_key, "obs", longitude, latitude);
+  },
+
+  /**
+   * Get forecast for site.
    * @param {string} site_id - ID of site to get forecast for.
    * @param {string} frequency - Data frequency (daily or 3hourly).
    * @returns {Object}  - Forecast object.
    */
   get_forecast_for_site: function(site_id, frequency){
     return forecast.get_forecast_for_site(this.api_key, site_id, frequency);
+  },
+
+  /**
+   * Get observations for site.
+   * @param {string} site_id - ID of site to get forecast for.
+   * @returns {Object}  - Obserbations object.
+   */
+  get_obs_for_site: function(site_id){
+    return obs.get_obs_for_site(this.api_key, site_id);
   }
 }
 

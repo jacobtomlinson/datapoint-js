@@ -6,26 +6,21 @@ module.exports = {
   "params": undefined,
   "frequency": undefined,
 
-  "get_forecast_for_site": function(api_key, site_id, frequency){
-    if(frequency === undefined){
-      this.frequency = "daily";
-    } else {
-      this.frequency = frequency;
-    }
-    var data = api.call_api(api_key, "fcs", site_id, {"res":this.frequency});
+  "get_obs_for_site": function(api_key, site_id){
+    var data = api.call_api(api_key, "obs", site_id, {"res":"hourly"});
     this.params = data.SiteRep.Wx.Param;
-    var forecast = {};
-    forecast.data_date  = new Date(data.SiteRep.DV.dataDate); // Needs converting to date object
-    forecast.continent  = data.SiteRep.DV.Location.continent;
-    forecast.country    = data.SiteRep.DV.Location.country;
-    forecast.name       = data.SiteRep.DV.Location.name;
-    forecast.longitude  = data.SiteRep.DV.Location.lon;
-    forecast.latitude   = data.SiteRep.DV.Location.lat;
-    forecast.id         = data.SiteRep.DV.Location.i;
-    forecast.elevation  = data.SiteRep.DV.Location.elevation;
-    forecast.days       = this.clean_days(data.SiteRep.DV.Location.Period);
+    var obs = {};
+    obs.data_date  = new Date(data.SiteRep.DV.dataDate); // Needs converting to date object
+    obs.continent  = data.SiteRep.DV.Location.continent;
+    obs.country    = data.SiteRep.DV.Location.country;
+    obs.name       = data.SiteRep.DV.Location.name;
+    obs.longitude  = data.SiteRep.DV.Location.lon;
+    obs.latitude   = data.SiteRep.DV.Location.lat;
+    obs.id         = data.SiteRep.DV.Location.i;
+    obs.elevation  = data.SiteRep.DV.Location.elevation;
+    obs.days       = this.clean_days(data.SiteRep.DV.Location.Period);
 
-    return forecast;
+    return obs;
 
   },
 

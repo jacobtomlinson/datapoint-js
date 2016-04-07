@@ -9,7 +9,7 @@ module.exports = {
         "Hm":"H", "Gm":"G", "FNm":"F", "D":"D", "$":"$"},
     "default":
         {"V":"V", "W":"W", "T":"T", "S":"S", "Pp":"Pp",
-        "H":"H", "G":"G", "F":"F", "D":"D", "U":"U", "$":"$"}
+        "H":"H", "G":"G", "F":"F", "D":"D", "U":"U", "$":"$", "P":"P","Pt":"Pt", "Dp":"Dp"}
   },
 
   "human_keys": {
@@ -18,10 +18,13 @@ module.exports = {
     "T":"temperature",
     "S":"wind_speed",
     "Pp":"precipitation",
+    "P": "pressure",
+    "Pt": "pressure_tendency",
     "H":"humidity",
     "G":"wind_gust",
     "F":"feels_like_temperature",
     "D":"wind_direction",
+    "Dp":"dew_point",
     "U":"uv",
     "$":"name"
   },
