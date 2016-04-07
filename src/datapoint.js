@@ -22,8 +22,16 @@ module.exports = {
    * Get a list of forecast sites.
    * @returns {Array} - List of site objects.
    */
-  get_sites: function(){
-    return site.get_sites(this.api_key);
+  get_forecast_sites: function(){
+    return site.get_sites(this.api_key, "fcs");
+  },
+
+  /**
+   * Get a list of obs sites.
+   * @returns {Array} - List of site objects.
+   */
+  get_obs_sites: function(){
+    return site.get_sites(this.api_key, "obs");
   },
 
   /**
