@@ -1,4 +1,4 @@
-# _DataPoint for JavaScript_
+# _DataPoint for JavaScript_ [![Build Status](https://travis-ci.org/jacobtomlinson/datapoint-js.svg?branch=master)](https://travis-ci.org/jacobtomlinson/datapoint-js)
 
 _A JavaScript library for accessing weather data via the [Met Office](http://www.metoffice.gov.uk/)'s open data API
 known as [DataPoint](http://www.metoffice.gov.uk/datapoint)._
