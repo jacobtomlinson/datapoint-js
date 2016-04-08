@@ -2,7 +2,8 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 module.exports = {
 
-  "API_URL": "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/",
+  "FCS_URL": "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/",
+  "OBS_URL": "http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/",
 
   "formatParams": function( params ){
     return "?" + Object
@@ -13,7 +14,7 @@ module.exports = {
           .join("&")
   },
 
-  "call_api": function(api_key, path, params){
+  "call_api": function(api_key, type, path, params){
     if(api_key === undefined || api_key == ""){
       console.log("No API key set.");
       return false;
@@ -31,8 +32,16 @@ module.exports = {
       var xhttp = new XMLHttpRequest();
     }
 
+    if (type == "fcs"){
+      var url = this.FCS_URL
+    } else if (type == "obs") {
+      var url = this.OBS_URL
+    } else {
+      console.log("No request type set.");
+      return false;
+    }
 
-    url =  this.API_URL + path + this.formatParams(payload);
+    url += path + this.formatParams(payload);
     // console.log(url);
     xhttp.open("GET", url, false);
     xhttp.send();

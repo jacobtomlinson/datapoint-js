@@ -9,11 +9,12 @@ No support for this module is provided by the Met Office and may break as the Da
 The author will make reasonable efforts to keep it up to date and fully featured.__
 
 ## Features
-* List forecast sites
-* Get nearest forecast site from longitude and latitiude
+* List forecast/observation sites
+* Get nearest forecast/observation site from longitude and latitiude
 * Get the following 5 day forecast types for any site
  * Daily (Two timesteps, midday and midnight UTC)
  * 3 hourly (Eight timesteps, every 3 hours starting at midnight UTC)
+* Get hourly observations for the last 48 hours
 
 ## Installation
 
@@ -42,7 +43,7 @@ var datapoint = require('datapoint-js')
 
 datapoint.set_key("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
 
-site = datapoint.get_nearest_site(-0.124626, 51.500728)
+site = datapoint.get_nearest_forecast_site(-0.124626, 51.500728)
 
 forecast = datapoint.get_forecast_for_site(site.id, "3hourly")
 
@@ -73,7 +74,7 @@ Temperature is 15°C in London
 
     datapoint.set_key("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
 
-    site = datapoint.get_nearest_site(-0.124626, 51.500728);
+    site = datapoint.get_nearest_forecast_site(-0.124626, 51.500728);
 
     forecast = datapoint.get_forecast_for_site(site.id);
 
