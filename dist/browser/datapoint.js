@@ -1402,7 +1402,8 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 module.exports = {
 
-  "API_URL": "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/",
+  "FCS_URL": "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/",
+  "OBS_URL": "http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/",
 
   "formatParams": function( params ){
     return "?" + Object
@@ -1413,7 +1414,7 @@ module.exports = {
           .join("&")
   },
 
-  "call_api": function(api_key, path, params){
+  "call_api": function(api_key, type, path, params){
     if(api_key === undefined || api_key == ""){
       console.log("No API key set.");
       return false;
@@ -1431,8 +1432,16 @@ module.exports = {
       var xhttp = new XMLHttpRequest();
     }
 
+    if (type == "fcs"){
+      var url = this.FCS_URL
+    } else if (type == "obs") {
+      var url = this.OBS_URL
+    } else {
+      console.log("No request type set.");
+      return false;
+    }
 
-    url =  this.API_URL + path + this.formatParams(payload);
+    url += path + this.formatParams(payload);
     // console.log(url);
     xhttp.open("GET", url, false);
     xhttp.send();
@@ -1454,6 +1463,7 @@ module.exports = {
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var site = require("./site");
 var forecast = require("./forecast");
+var obs = require("./obs");
 
 /**
  * Datapoint module.
@@ -1475,8 +1485,16 @@ module.exports = {
    * Get a list of forecast sites.
    * @returns {Array} - List of site objects.
    */
-  get_sites: function(){
-    return site.get_sites(this.api_key);
+  get_forecast_sites: function(){
+    return site.get_sites(this.api_key, "fcs");
+  },
+
+  /**
+   * Get a list of obs sites.
+   * @returns {Array} - List of site objects.
+   */
+  get_obs_sites: function(){
+    return site.get_sites(this.api_key, "obs");
   },
 
   /**
@@ -1485,18 +1503,37 @@ module.exports = {
    * @param {string} latitude - Latitude for location.
    * @returns {Object}  - Site object.
    */
-  get_nearest_site: function(longitude, latitude){
-    return site.get_nearest_site(this.api_key, longitude, latitude);
+  get_nearest_forecast_site: function(longitude, latitude){
+    return site.get_nearest_site(this.api_key, "fcs", longitude, latitude);
   },
 
   /**
-   * Get nearest forecast site.
+   * Get nearest obs site.
+   * @param {string} longitude - Logitude for location.
+   * @param {string} latitude - Latitude for location.
+   * @returns {Object}  - Site object.
+   */
+  get_nearest_obs_site: function(longitude, latitude){
+    return site.get_nearest_site(this.api_key, "obs", longitude, latitude);
+  },
+
+  /**
+   * Get forecast for site.
    * @param {string} site_id - ID of site to get forecast for.
    * @param {string} frequency - Data frequency (daily or 3hourly).
    * @returns {Object}  - Forecast object.
    */
   get_forecast_for_site: function(site_id, frequency){
     return forecast.get_forecast_for_site(this.api_key, site_id, frequency);
+  },
+
+  /**
+   * Get observations for site.
+   * @param {string} site_id - ID of site to get forecast for.
+   * @returns {Object}  - Obserbations object.
+   */
+  get_obs_for_site: function(site_id){
+    return obs.get_obs_for_site(this.api_key, site_id);
   }
 }
 
@@ -1504,8 +1541,8 @@ if (typeof window !== 'undefined') {
   window.datapoint = module.exports;
 }
 
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_d0009bec.js","/")
-},{"./forecast":8,"./site":10,"1YiZ5S":5,"buffer":2}],8:[function(require,module,exports){
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_ab6916c9.js","/")
+},{"./forecast":8,"./obs":9,"./site":11,"1YiZ5S":5,"buffer":2}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var api = require("./api");
 var settings = require("./settings");
@@ -1521,7 +1558,7 @@ module.exports = {
     } else {
       this.frequency = frequency;
     }
-    var data = api.call_api(api_key, site_id, {"res":this.frequency});
+    var data = api.call_api(api_key, "fcs", site_id, {"res":this.frequency});
     this.params = data.SiteRep.Wx.Param;
     var forecast = {};
     forecast.data_date  = new Date(data.SiteRep.DV.dataDate); // Needs converting to date object
@@ -1628,7 +1665,125 @@ module.exports = {
 };
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/forecast.js","/")
-},{"./api":6,"./settings":9,"1YiZ5S":5,"buffer":2}],9:[function(require,module,exports){
+},{"./api":6,"./settings":10,"1YiZ5S":5,"buffer":2}],9:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var api = require("./api");
+var settings = require("./settings");
+
+module.exports = {
+
+  "params": undefined,
+  "frequency": undefined,
+
+  "get_obs_for_site": function(api_key, site_id){
+    var data = api.call_api(api_key, "obs", site_id, {"res":"hourly"});
+    this.params = data.SiteRep.Wx.Param;
+    var obs = {};
+    obs.data_date  = new Date(data.SiteRep.DV.dataDate); // Needs converting to date object
+    obs.continent  = data.SiteRep.DV.Location.continent;
+    obs.country    = data.SiteRep.DV.Location.country;
+    obs.name       = data.SiteRep.DV.Location.name;
+    obs.longitude  = data.SiteRep.DV.Location.lon;
+    obs.latitude   = data.SiteRep.DV.Location.lat;
+    obs.id         = data.SiteRep.DV.Location.i;
+    obs.elevation  = data.SiteRep.DV.Location.elevation;
+    obs.days       = this.clean_days(data.SiteRep.DV.Location.Period);
+
+    return obs;
+
+  },
+
+  "clean_days": function(raw_data){
+    var days = [];
+
+    for (var i = 0; i < raw_data.length; i++){
+      day = {};
+      day.date = new Date(raw_data[i].value);
+      day.timesteps = this.clean_timesteps(raw_data[i].Rep, day.date);
+      days.push(day);
+    }
+    return days;
+  },
+
+  "clean_timesteps": function(raw_data, date){
+    var timesteps = [];
+    for (var i = 0; i < raw_data.length; i++){
+      timestep = {};
+      for (var key in raw_data[i]){
+        new_key = this.parse_timestep_key(
+                          this.remap_timestep_key(key, raw_data[i].$));
+        timestep[new_key] = {};
+        timestep[new_key].id = key;
+        timestep[new_key].value = raw_data[i][key];
+        timestep[new_key].units = this.get_units_for_key(key);
+        if (key == 'W'){
+          timestep[new_key].text = this.weather_to_text(raw_data[i][key]);
+        }
+      }
+      timestep.date = new Date(date.valueOf());
+      if (this.frequency == "daily"){
+        if (timestep.name == "Day") {
+          timestep.date = timestep.date.setHours(timestep.date.getHours + 12);
+        }
+      } else {
+        minutes = timestep.date.getMinutes() + parseInt(timestep.name.value);
+        timestep.date.setMinutes(minutes);
+      }
+      timesteps.push(timestep);
+    }
+    return timesteps;
+  },
+
+  "parse_timestep_key": function(key){
+    // Return human readable key
+    if (key in settings.human_keys){
+      return settings.human_keys[key];
+    } else {
+      console.log("Unknown key " + key);
+      return undefined;
+    }
+  },
+
+  "remap_timestep_key": function(key, timestep){
+    // Remap odd keys to common key
+    // e.g Humidity Noon (Hn) and Humidity Midnight (Hm) to Humidity (H)
+    if (key in settings.remap_keys.day ||
+        key in settings.remap_keys.night ||
+        key in settings.remap_keys.default ){
+      if (timestep == "Day"){
+        return settings.remap_keys.day[key];
+      } else if (timestep == "Night"){
+        return settings.remap_keys.night[key];
+      } else {
+        return settings.remap_keys.default[key];
+      }
+    } else {
+      console.log("Unknown key " + key);
+      return undefined;
+    }
+  },
+
+  "get_units_for_key": function(key){
+    var units = undefined;
+    for (var i = 0; i < this.params.length; i++){
+      if(key == this.params[i].name){
+        units = this.params[i].units;
+      }
+    }
+    return units;
+  },
+
+  "weather_to_text": function(code){
+    if (code in settings.weather_codes){
+      return settings.weather_codes[code];
+    } else {
+      return undefined;
+    }
+  }
+};
+
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/obs.js","/")
+},{"./api":6,"./settings":10,"1YiZ5S":5,"buffer":2}],10:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 module.exports = {
 
@@ -1641,7 +1796,7 @@ module.exports = {
         "Hm":"H", "Gm":"G", "FNm":"F", "D":"D", "$":"$"},
     "default":
         {"V":"V", "W":"W", "T":"T", "S":"S", "Pp":"Pp",
-        "H":"H", "G":"G", "F":"F", "D":"D", "U":"U", "$":"$"}
+        "H":"H", "G":"G", "F":"F", "D":"D", "U":"U", "$":"$", "P":"P","Pt":"Pt", "Dp":"Dp"}
   },
 
   "human_keys": {
@@ -1650,10 +1805,13 @@ module.exports = {
     "T":"temperature",
     "S":"wind_speed",
     "Pp":"precipitation",
+    "P": "pressure",
+    "Pt": "pressure_tendency",
     "H":"humidity",
     "G":"wind_gust",
     "F":"feels_like_temperature",
     "D":"wind_direction",
+    "Dp":"dew_point",
     "U":"uv",
     "$":"name"
   },
@@ -1695,14 +1853,14 @@ module.exports = {
 };
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/settings.js","/")
-},{"1YiZ5S":5,"buffer":2}],10:[function(require,module,exports){
+},{"1YiZ5S":5,"buffer":2}],11:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var api = require("./api");
 
 module.exports = {
-  
-    "get_sites": function(api_key){
-      sites = api.call_api(api_key, "sitelist/")
+
+    "get_sites": function(api_key, type){
+      sites = api.call_api(api_key, type, "sitelist/")
       return sites.Locations.Location;
     },
 
@@ -1711,7 +1869,7 @@ module.exports = {
       return distance;
     },
 
-    "get_nearest_site": function(api_key, longitude, latitude){
+    "get_nearest_site": function(api_key, type, longitude, latitude){
       if(latitude === undefined || longitude === undefined){
         console.log("Latitude or Longitude not set.");
         return false;
@@ -1719,7 +1877,7 @@ module.exports = {
 
       var nearest = false;
       var distance = false;
-      var sites = this.get_sites(api_key);
+      var sites = this.get_sites(api_key, type);
 
       for(var i = 0; i < sites.length; i++){
         var new_distance = this.distance_between_coords(
