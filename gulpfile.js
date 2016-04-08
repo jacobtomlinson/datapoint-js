@@ -5,8 +5,16 @@ var shell = require('gulp-shell')
 var pack = require('./package.json');
 var jsdoc = require("gulp-jsdoc");
 
+gulp.task('build', function() {
+  gulp.start('browserify', 'document');
+});
+
 gulp.task('default', function() {
-  gulp.start('browserify', 'document', 'serve');
+  gulp.start('build', 'serve');
+});
+
+gulp.task('test', function() {
+  gulp.start('build');
 });
 
 gulp.task('browserify', function() {
