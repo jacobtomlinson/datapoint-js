@@ -18,21 +18,15 @@ The author will make reasonable efforts to keep it up to date and fully featured
 
 ## Installation
 
-### Node
+### NodeJS
 
 ```Shell
 npm install datapoint-js
 ```
 
-### Browser
-
-```Shell
-bower install datapoint-js
-```
-
 ### Manual
 
-Download the contents of either `/src` (for node) or `/dist/browser` (for browser) and include them in your project.
+Download the contents `/src` (for node) and include them in your project.
 
 ## Example Usage
 
@@ -57,41 +51,6 @@ console.log("Temperature is " + current_timestep.temperature.value + "°" + curr
 Temperature is 15°C in London
 ```
 
-### Browser
-
-```html
-<html>
-<head>
-  <title>Datapoint test</title>
-</head>
-<body>
-
-  <h1>Weather</h1>
-  <p id="weather">Loading...</p>
-
-  <script src="../dist/browser/datapoint.js"></script>
-  <script>
-
-    datapoint.set_key("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
-
-    site = datapoint.get_nearest_forecast_site(-0.124626, 51.500728);
-
-    forecast = datapoint.get_forecast_for_site(site.id);
-
-    current_timestep = forecast.days[0].timesteps[0];
-
-    document.getElementById("weather").innerHTML =
-        "Temperature is " + current_timestep.temperature.value + "&deg;" + current_timestep.temperature.units + " in " + site.name;
-
-  </script>
-</body>
-</html>
-```
-
-#### Output
-
-The contents of the `<p>` block is replaced with `Temperature is 15°C in London`.
-
 ## Contributing changes
 
 Please feel free to submit issues and pull requests.
@@ -101,13 +60,7 @@ To work on the project simply clone the project and run `npm install`.
 This project uses gulp as its task runner and can be used to browserify the code and generate the documentation.
 
 ## Documentation
-Documentation is automatically generated using [JSDoc](http://usejsdoc.org/) and is stored in [docs](docs).
-
-To regenerate the documentation simply run
-
-```
-gulp document
-```
+Documentation can be automatically generated using [JSDoc](http://usejsdoc.org/) by running `gulp document`.
 
 ## License
 
