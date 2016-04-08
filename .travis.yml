@@ -4,6 +4,9 @@ node_js:
   - 0.10
   - 0.12
 
+script:
+  - gulp test
+
 deploy:
   provider: npm
   api_key: $NPM_API_KEY
