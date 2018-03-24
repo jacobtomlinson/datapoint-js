@@ -15,6 +15,7 @@ The author will make reasonable efforts to keep it up to date and fully featured
  * Daily (Two timesteps, midday and midnight UTC)
  * 3 hourly (Eight timesteps, every 3 hours starting at midnight UTC)
 * Get hourly observations for the last 48 hours
+* Get regional forecasts summarys for the following 30 days
 
 ## Installation
 
