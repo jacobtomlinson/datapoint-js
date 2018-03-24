@@ -29,6 +29,19 @@ module.exports = {
 
   },
 
+  "get_regional_forecast_for_site": function(api_key, site_id){
+    var data = api.call_api(api_key, "rfcs", site_id);
+    data = data.RegionalFcst;
+    var forecast = {};
+    forecast.issued_at = data.issuedAt;
+    forecast.created_on = data.createdOn;
+    forecast.region = data.regionId;
+    forecast.days = data.FcstPeriods.Period;
+    // // //
+    return forecast;
+
+  },
+
   "clean_days": function(raw_data){
     var days = [];
 

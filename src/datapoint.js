@@ -35,6 +35,14 @@ module.exports = {
   },
 
   /**
+   * Get a list of regional forecast sites.
+   * @returns {Array} - List of site objects.
+   */
+  get_regional_forecast_site: function(){
+    return site.get_sites(this.api_key, "rfcs");
+  },
+
+  /**
    * Get nearest forecast site.
    * @param {string} longitude - Logitude for location.
    * @param {string} latitude - Latitude for location.
@@ -71,6 +79,15 @@ module.exports = {
    */
   get_obs_for_site: function(site_id){
     return obs.get_obs_for_site(this.api_key, site_id);
+  },
+
+  /**
+   * Get regional forecast for site.
+   * @param {string} site_id - ID of site to get regional forecast for.
+   * @returns {Object}  - Forecast object.
+   */
+  get_regional_forecast_for_site: function(site_id){
+    return forecast.get_regional_forecast_for_site(this.api_key, site_id);
   }
 }
 
