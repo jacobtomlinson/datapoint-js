@@ -38,7 +38,7 @@ module.exports = {
    * Get a list of regional forecast sites.
    * @returns {Array} - List of site objects.
    */
-  get_regional_forecast_site: function(){
+  get_regional_forecast_sites: function(){
     return site.get_sites(this.api_key, "rfcs");
   },
 
