@@ -33,13 +33,24 @@ module.exports = {
     var data = api.call_api(api_key, "rfcs", site_id);
     data = data.RegionalFcst;
     var forecast = {};
-    forecast.issued_at = data.issuedAt;
-    forecast.created_on = data.createdOn;
-    forecast.region = data.regionId;
-    forecast.days = data.FcstPeriods.Period;
-    // // //
+    forecast.issued_at   = new Date(data.issuedAt);
+    forecast.created_on  = new Date(data.createdOn);
+    forecast.region_id   = data.regionId;
+    forecast.region_name = this.parse_region_id(data.regionId);
+    forecast.days        = data.FcstPeriods.Period;
+
     return forecast;
 
+  },
+
+  "parse_region_id": function(key) {
+    // Return friendly region name
+    if (key in settings.region_ids){
+      return settings.region_ids[key];
+    } else {
+      console.log("Unknown key " + key);
+      return undefined;
+    }
   },
 
   "clean_days": function(raw_data){
