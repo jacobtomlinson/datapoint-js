@@ -39,7 +39,7 @@ module.exports = {
    * @returns {Array} - List of site objects.
    */
   get_regional_forecast_sites: function(){
-    return site.get_sites(this.api_key, "rfcs");
+    return site.get_regional_sites(this.api_key, "rfcs");
   },
 
   /**
