@@ -1,10 +1,26 @@
 var api = require("./api");
+var settings = require("./settings");
 
 module.exports = {
 
     "get_sites": function(api_key, type){
-      sites = api.call_api(api_key, type, "sitelist/")
+      sites = api.call_api(api_key, type, "sitelist/");
       return sites.Locations.Location;
+    },
+
+    "get_regional_sites": function(api_key, type){
+      sites = api.call_api(api_key, type, "sitelist/");
+      sites = sites.Locations.Location
+
+      // Return readable site names
+      for (var i = 0; i < sites.length; i++) {
+        var site_id = sites[i]['@name'];
+        if (site_id in settings.region_ids){
+          sites[i]['@name'] = settings.region_ids[site_id];
+        }
+      }
+
+      return sites;
     },
 
     "distance_between_coords": function(lon1, lat1, lon2, lat2){

@@ -29,6 +29,30 @@ module.exports = {
 
   },
 
+  "get_regional_forecast_for_site": function(api_key, site_id){
+    var data = api.call_api(api_key, "rfcs", site_id);
+    data = data.RegionalFcst;
+    var forecast = {};
+    forecast.issued_at   = new Date(data.issuedAt);
+    forecast.created_on  = new Date(data.createdOn);
+    forecast.region_id   = data.regionId;
+    forecast.region_name = this.parse_region_id(data.regionId);
+    forecast.days        = data.FcstPeriods.Period;
+
+    return forecast;
+
+  },
+
+  "parse_region_id": function(key) {
+    // Return friendly region name
+    if (key in settings.region_ids){
+      return settings.region_ids[key];
+    } else {
+      console.log("Unknown key " + key);
+      return undefined;
+    }
+  },
+
   "clean_days": function(raw_data){
     var days = [];
 

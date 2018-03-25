@@ -4,6 +4,7 @@ module.exports = {
 
   "FCS_URL": "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/",
   "OBS_URL": "http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/",
+  "RFCS_URL": "http://datapoint.metoffice.gov.uk/public/data/txt/wxfcs/regionalforecast/json/",
 
   "formatParams": function( params ){
     return "?" + Object
@@ -36,6 +37,8 @@ module.exports = {
       var url = this.FCS_URL
     } else if (type == "obs") {
       var url = this.OBS_URL
+    } else if (type == "rfcs") {
+      var url = this.RFCS_URL
     } else {
       console.log("No request type set.");
       return false;
