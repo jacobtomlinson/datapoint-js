@@ -26,3 +26,19 @@ var forecast_for_today = forecast.days[0]
 var next_forecast = forecast_for_today.timesteps[1]
 
 console.log("At " + next_forecast.date + " it will be " + next_forecast.weather.text + " with a temperature of " + next_forecast.temperature.value + "°" + next_forecast.temperature.units + " in " + obs_site.name)
+
+// We can get a general regional reports using the region id
+// Note the region id's are not the same as the site ID so lest list them
+var reg_sites = datapoint.get_regional_forecast_sites();
+for (var i = 0; i < reg_sites.length; i++) {
+    var region_ids = reg_sites[i]['@id']+' '+reg_sites[i]['@name'];
+    console.log(region_ids);
+}
+
+// We can then print out todays forecasts
+var reg_forecast = datapoint.get_regional_forecast_for_site("514");
+
+var todays_headline = reg_forecast.days[0].Paragraph;
+for (var i = 0; i < todays_headline.length; i++) {
+    console.log(todays_headline[i].title + todays_headline[i].$);
+}
